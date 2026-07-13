@@ -1,0 +1,36 @@
+---
+edge1:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.20.20.6
+host1:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.20.20.7
+host2:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.20.20.8
+leaf1:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.20.20.4
+leaf2:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.20.20.9
+spine1:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.20.20.10
+spine2:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.20.20.2

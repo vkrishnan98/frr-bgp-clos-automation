@@ -1,0 +1,27 @@
+---
+- name: Render frr.conf for {{ inventory_hostname }}
+  template:
+    src: frr.conf.j2
+    dest: "/tmp/frr_render_{{ inventory_hostname }}.conf"
+  delegate_to: localhost
+
+- name: Copy rendered config into the running container
+  community.docker.docker_container_copy_into:
+    container: "{{ container_name }}"
+    path: "/tmp/frr_render_{{ inventory_hostname }}.conf"
+    container_path: /etc/frr/frr.conf.new
+  delegate_to: localhost
+
+- name: Safely reload FRR with only the incremental diff (frr-reload.py)
+  community.docker.docker_container_exec:
+    container: "{{ container_name }}"
+    command: >
+      python3 /usr/lib/frr/frr-reload.py
+      --reload --overwrite
+      /etc/frr/frr.conf.new
+  register: reload_result
+  delegate_to: localhost
+
+- name: Show reload result
+  debug:
+    var: reload_result.stdout_lines

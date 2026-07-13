@@ -1,0 +1,7 @@
+---
+spine_asn: 65000
+
+# Prefix-lists / route-maps applied at the fabric<->WAN boundary (leaf1<->edge1).
+# This is the piece interviewers love to probe: never redistribute freely.
+fabric_advertised_supernet: "10.0.0.0/8"
+wan_advertised_supernet: "172.16.0.0/12"

@@ -1,0 +1,6 @@
+---
+- name: Deploy FRR fabric configuration
+  hosts: spines:leaves:edge
+  gather_facts: false
+  roles:
+    - frr_config

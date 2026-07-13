@@ -1,0 +1,9 @@
+---
+access_network: "172.20.1.0/24"
+access_interface: eth4
+ospf_area: "0.0.0.51"
+ospf_interface: eth3   # link to edge1
+bgp_unnumbered_interfaces:
+  - eth1
+  - eth2
+  - eth3

@@ -1,0 +1,5 @@
+---
+role: spine
+bgp_unnumbered_interfaces:
+  - eth1
+  - eth2

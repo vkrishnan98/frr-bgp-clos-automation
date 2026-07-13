@@ -1,0 +1,7 @@
+---
+role: leaf
+bgp_unnumbered_interfaces:
+  - eth1
+  - eth2
+access_network: null   # set per-host: subnet advertised to hosts
+ospf_area: null         # set on leaf1 only, for the WAN handoff

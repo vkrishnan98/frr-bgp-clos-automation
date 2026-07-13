@@ -1,0 +1,3 @@
+---
+access_network: "172.20.2.0/24"
+access_interface: eth3

@@ -1,0 +1,24 @@
+---
+- name: Validate BGP underlay state
+  hosts: spines:leaves:edge
+  gather_facts: false
+  tasks:
+    - name: Get BGP summary as JSON
+      community.docker.docker_container_exec:
+        container: "{{ container_name }}"
+        command: vtysh -c "show bgp summary json"
+      register: bgp_summary
+      delegate_to: localhost
+
+    - name: Parse BGP summary
+      set_fact:
+        bgp_json: "{{ bgp_summary.stdout | from_json }}"
+
+    - name: Fail if any IPv4 unicast peer is not Established
+      assert:
+        that:
+          - item.value.state == "Established"
+        fail_msg: "Peer {{ item.key }} on {{ inventory_hostname }} is {{ item.value.state }}"
+        success_msg: "Peer {{ item.key }} on {{ inventory_hostname }} is Established"
+      loop: "{{ bgp_json.ipv4Unicast.peers | default({}) | dict2items }}"
+      when: bgp_json.ipv4Unicast is defined

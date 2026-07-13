@@ -1,0 +1,51 @@
+name: fabric
+
+topology:
+  nodes:
+    spine1:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - configs/spine1/daemons:/etc/frr/daemons
+    spine2:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - configs/spine2/daemons:/etc/frr/daemons
+    leaf1:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - configs/leaf1/daemons:/etc/frr/daemons
+    leaf2:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - configs/leaf2/daemons:/etc/frr/daemons
+    edge1:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - configs/edge1/daemons:/etc/frr/daemons
+    host1:
+      kind: linux
+      image: alpine:latest
+      exec:
+        - ip route add default via 172.20.1.1
+    host2:
+      kind: linux
+      image: alpine:latest
+      exec:
+        - ip route add default via 172.20.2.1
+
+  links:
+    # Clos underlay: spine <-> leaf, point-to-point, used unnumbered
+    - endpoints: ["spine1:eth1", "leaf1:eth1"]
+    - endpoints: ["spine1:eth2", "leaf2:eth1"]
+    - endpoints: ["spine2:eth1", "leaf1:eth2"]
+    - endpoints: ["spine2:eth2", "leaf2:eth2"]
+    # WAN/edge handoff: leaf1 <-> edge1 (OSPF)
+    - endpoints: ["leaf1:eth3", "edge1:eth1"]
+    # access ports for test hosts
+    - endpoints: ["leaf1:eth4", "host1:eth1"]
+    - endpoints: ["leaf2:eth3", "host2:eth1"]
