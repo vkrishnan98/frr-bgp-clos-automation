@@ -14,12 +14,16 @@ interface {{ access_interface }}
 {% endif %}
 {% if role == 'leaf' and ospf_area is defined and ospf_area %}
 interface {{ ospf_interface }}
+ ip address {{ ospf_link_ip }}
  ip ospf area {{ ospf_area }}
+ ip ospf network point-to-point
 !
 {% endif %}
 {% if role == 'edge' %}
 interface {{ ospf_interface }}
+ ip address {{ ospf_link_ip }}
  ip ospf area {{ ospf_area }}
+ ip ospf network point-to-point
 !
 {% endif %}
 !
@@ -34,6 +38,10 @@ router ospf
 router ospf
  ospf router-id {{ loopback }}
  redistribute static route-map WAN-TO-FABRIC
+!
+{% endif %}
+{% if role == 'edge' %}
+ip route {{ wan_network }} Null0
 !
 {% endif %}
 !

@@ -7,3 +7,4 @@ bgp_unnumbered_interfaces:
   - eth1
   - eth2
   - eth3
+ospf_link_ip: "10.255.0.0/31"

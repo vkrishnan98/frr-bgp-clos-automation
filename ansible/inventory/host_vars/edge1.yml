@@ -3,3 +3,4 @@ ospf_area: "0.0.0.51"
 ospf_interface: eth1     # link to leaf1
 wan_network: "172.16.0.0/24"   # simulated WAN/enterprise prefix, injected as a static+redistribute
 peer_asn: 65101           # leaf1
+ospf_link_ip: "10.255.0.1/31"

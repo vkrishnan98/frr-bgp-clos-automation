@@ -75,6 +75,9 @@ class VtyshClient:
         if not entries:
             return 0
         return len(entries[0].get("nexthops", []))
+    
+    def get_ospf_database(self) -> dict[str, Any]:
+        return self._exec_json("show ip ospf database json")
 
     # ---- Mutations (rare — prefer Ansible/frr-reload.py for config) ---
 
